@@ -61,18 +61,34 @@ void MyDisplay::onForwardButtonClicked() {
 }
 
 void MyDisplay::draw() {
-    QPixmap pixMap(300, 400);
-    pixMap.fill(Qt::white);
+    QPixmap pixmap(300, 400);
+    
+    QPainter painter(&pixmap);
 
-    QPainter painter(&pixMap);
-    painter.setPen(Qt::black);
-    painter.drawLine(29, 39, 269, 359);
-    painter.drawLine(29, 359, 269, 39);
-    painter.drawLine(29, 39, 269, 39);
-    painter.drawLine(269, 359, 269, 39);
-    painter.drawLine(29, 359, 269, 359);
-    painter.drawLine(29, 359, 29, 39);
+    auto mid_x = pixmap.width() / 2;
+    auto mid_y = pixmap.height() - 100;
+
+    // Set background color
+    painter.fillRect(0, 0, pixmap.width(), pixmap.height(), Qt::white);
+
+    // Draw a stem
+    painter.setPen(QPen(Qt::darkGreen, 5));
+    painter.drawLine(mid_x, pixmap.height(), mid_x, mid_y);
+
+    // Draw petals
+    painter.setPen(QPen(Qt::red, 3));
+    painter.setBrush(QBrush(Qt::red));
+    painter.drawEllipse(mid_x - 41, mid_y - 41, 40, 40);
+    painter.drawEllipse(mid_x + 1, mid_y - 41, 40, 40);
+    painter.drawEllipse(mid_x - 41, mid_y + 1, 40, 40);
+    painter.drawEllipse(mid_x + 1, mid_y + 1, 40, 40);
+
+    // Draw a center
+    painter.setPen(QPen(Qt::yellow, 5));
+    painter.setBrush(QBrush(Qt::yellow));
+    painter.drawEllipse(mid_x - 10, mid_y - 10, 20, 20);
+
     painter.end();
 
-    pixelDrawingArea.setPixmap(pixMap);
+    pixelDrawingArea.setPixmap(pixmap);
 }
